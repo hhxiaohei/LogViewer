@@ -1,11 +1,34 @@
-@extends('log-viewer::_template.master')
+@extends('log-viewer::bootstrap-3._master')
 
 @section('content')
     <h1 class="page-header">Log [{{ $log->date }}]</h1>
 
     <div class="row">
         <div class="col-md-2">
-            @include('log-viewer::_partials.menu')
+            <div class="panel panel-default">
+                <div class="panel-heading"><i class="fa fa-fw fa-flag"></i> Levels</div>
+                <ul class="list-group">
+                    @foreach($log->menu() as $levelKey => $item)
+                        @if ($item['count'] === 0)
+                            <a href="#" class="list-group-item disabled">
+                                <span class="badge">
+                                    {{ $item['count'] }}
+                                </span>
+                                {!! $item['icon'] !!} {{ $item['name'] }}
+                            </a>
+                        @else
+                            <a href="{{ $item['url'] }}" class="list-group-item {{ $levelKey }}">
+                                <span class="badge level-{{ $levelKey }}">
+                                    {{ $item['count'] }}
+                                </span>
+                                <span class="level level-{{ $levelKey }}">
+                                    {!! $item['icon'] !!} {{ $item['name'] }}
+                                </span>
+                            </a>
+                        @endif
+                    @endforeach
+                </ul>
+            </div>
         </div>
         <div class="col-md-10">
             {{-- Log Details --}}
